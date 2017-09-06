@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 		errx(1, "Wrong input");
 
 	printf("will alloc %d pages\n", nr_pages);
+	alloc_pages(nr_pages);
 
 	while (1) {
 		printf("How many pages you want to access? ");
@@ -59,6 +60,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 		printf("will access %d pages\n", nr_accesses);
+		access_pages(nr_accesses);
 	}
 
 	return 0;
