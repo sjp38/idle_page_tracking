@@ -23,25 +23,28 @@ int main(int argc, char *argv[])
 	int f;
 	unsigned long long ent;
 
-	unsigned long long vaddr, start_vaddr, end_vaddr;
+	unsigned long long va, start_va, end_va;
 
 	if (argc < 4)
 		errx(1, "Usage: %s <pid of process> <start vaddr> <end vaddr>\n",
 				argv[0]);
 
 	pid = argv[1];
-	start_vaddr = (atoi(argv[2]));
-	end_vaddr = (atoi(argv[3]));
+	start_va = (atoi(argv[2]));
+	end_va = (atoi(argv[3]));
 
 	snprintf(path, 256, "/proc/%s/pagemap", pid);
 
 	f = open(path, O_RDONLY);
 
-	for (vaddr = start_vaddr; vaddr < end_vaddr; vaddr += SZ_PAGE) {
+	printf("vaddr\t\tentry\t\t\tpfn\n");
+	for (va = start_va; va < end_va; va += SZ_PAGE) {
 		if (pread(f, &ent, sizeof(ent),
-					(uintptr_t)vaddr >> (PAGE_SHIFT - 3)) != sizeof(ent))
+					(uintptr_t)va >> (PAGE_SHIFT - 3))
+				!= sizeof(ent))
 			err(2, "pread pagemap");
-		printf("map for vaddr %p: %llx\n", (void *)vaddr, ent);
+		printf("%p\t%llx\t%llx\n",
+				(void *)va, ent, PAGEMAP_PFN(ent));
 	}
 
 	return 0;
