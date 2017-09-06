@@ -1,6 +1,8 @@
 .PHONY: clean help
 
-APP	+= userprog
+APPS	:= userprog pagemap
+APP	:= userprog
+PAGEMAP	:= pagemap
 
 IDIR	:= include
 CC	:= gcc
@@ -10,6 +12,9 @@ ODIR	:= ./
 
 _OBJ	:= userprog.o
 OBJ	:= $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+_OBJ_PM	:= pagemap.o
+OBJ_PM	:= $(patsubst %,$(ODIR)/%,$(_OBJ_PM))
 
 
 $(ODIR)/%.o: %.c $(DEPS)
@@ -22,11 +27,14 @@ $(ODIR)/%.s: %.c $(DEPS)
 $(APP): $(OBJ)
 	$(CC) -o $@ $^ $(LIBS)
 
+$(PAGEMAP): $(OBJ_PM)
+	$(CC) -o $@ $^ $(LIBS)
 
-all: $(APP)
+
+all: $(APPS)
 
 clean:
-	rm -f $(ODIR)/*.o $(ODIR)/*.s $(APP)
+	rm -f $(ODIR)/*.o $(ODIR)/*.s $(APPS)
 
 
 help:
