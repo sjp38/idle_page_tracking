@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 		printf("%p\t%llx\t%llx\n",
 				(void *)va, ent, PAGEMAP_PFN(ent));
 	}
+	close(f);
 
 	return 0;
 }
