@@ -53,8 +53,9 @@ void getidle(int nr_pfns, int pfns[])
 		if (pread(fd, &entry, sizeof(entry), pfn / 64 * 8)
 				!= sizeof(entry))
 			err(2, "%s: read bitmap", __func__);
-		printf("the bit: %d\n", (int)BIT_AT(entry, pfn % 64));
+		printf("%d ", (int)BIT_AT(entry, pfn % 64));
 	}
+	printf("\n");
 
 	close(fd);
 }
