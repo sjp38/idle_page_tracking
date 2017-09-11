@@ -29,4 +29,7 @@ with open("/proc/%s/pagemap" % pid, 'rb') as f:
         f.seek(offset, 0)
         ent = f.read(8)
         ent = struct.unpack("<Q", ent)[0]
-        print "%d" % PAGEMAP_PFN(ent)
+        pfn = PAGEMAP_PFN(ent)
+        if pfn == 0:
+            continue
+        print "%d" % pfn
