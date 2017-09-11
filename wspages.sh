@@ -13,5 +13,8 @@ heaparea=`./heapof.py $pid`
 pfns=`sudo ./pfnof.py $pid $heaparea`
 
 sudo ./pageidle set $pfns
+bits=`sudo ./pageidle get $pfns`
+echo "before: " $bits
 sleep $interval
-sudo ./pageidle get $pfns
+bits=`sudo ./pageidle get $pfns`
+echo "after:  " $bits
