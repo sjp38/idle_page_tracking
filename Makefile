@@ -1,8 +1,7 @@
 .PHONY: clean help
 
-APPS	:= userprog pagemap pageidle
+APPS	:= userprog pageidle
 APP	:= userprog
-PAGEMAP	:= pagemap
 PAGEIDL	:= pageidle
 
 IDIR	:= include
@@ -13,9 +12,6 @@ ODIR	:= ./
 
 _OBJ	:= userprog.o
 OBJ	:= $(patsubst %,$(ODIR)/%,$(_OBJ))
-
-_OBJ_PM	:= pagemap.o
-OBJ_PM	:= $(patsubst %,$(ODIR)/%,$(_OBJ_PM))
 
 _OBJ_PI	:= pageidle.o
 OBJ_PI	:= $(patsubst %,$(ODIR)/%,$(_OBJ_PI))
@@ -29,9 +25,6 @@ $(ODIR)/%.s: %.c $(DEPS)
 
 
 $(APP): $(OBJ)
-	$(CC) -o $@ $^ $(LIBS)
-
-$(PAGEMAP): $(OBJ_PM)
 	$(CC) -o $@ $^ $(LIBS)
 
 $(PAGEIDL): $(OBJ_PI)
