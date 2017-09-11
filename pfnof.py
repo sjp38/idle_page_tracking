@@ -5,7 +5,7 @@ import struct
 import sys
 
 if len(sys.argv) < 3:
-    print "Usage: %s <pid> <vaddr>" % (sys.argv[0])
+    print "Usage: %s <pid> <vaddr> [vaddr2] ..." % (sys.argv[0])
     exit(1)
 
 PAGE_SHIFT = 12
