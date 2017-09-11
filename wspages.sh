@@ -9,7 +9,7 @@ fi
 pid=$1
 interval=$2
 
-heaparea=`./heapof.py $pid`
+heaparea=`sudo ./heapof.py $pid`
 pfns=`sudo ./pfnof.py $pid $heaparea`
 
 sudo ./pageidle set $pfns
