@@ -103,6 +103,21 @@ $ ./wspages.sh `pidof userprog` 1
 [*] Note that this script tracks heap pages only for now.
 
 
+wspgstat.sh
+-----------
+
+Like *stat programs (such as vmstat, iostat, ...), wspgstat.sh monitors and
+print out number of pages in working set of specific process repeatedly.  It
+receives pid of target program and delay between idleness check as arguments.
+Simple example usage is as below:
+```
+$ ./wspgstat.sh `pidof mysqld` 5
+1 17448
+9 21536
+18 21659
+```
+
+
 License
 =======
 
