@@ -24,7 +24,8 @@ do
 		NR_PFNF_REUSE=0
 	fi
 	NR_PFNF_REUSE=$(($NR_PFNF_REUSE + 1))
-	echo "$SECONDS `./wspagesof.sh $PFNS_FILE $DELAY`"
+	WSPAGES=`./wspagesof.sh $PFNS_FILE $DELAY`
+	echo "$SECONDS $WSPAGES"
 done
 
 popd > /dev/null
