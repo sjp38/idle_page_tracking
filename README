@@ -1,0 +1,98 @@
+Idle Page Tracking
+==================
+
+This is a toolbox for idle page tracking.  It can be used to know real working
+set size of a process.
+
+
+Tools
+=====
+
+This section gives brief description and usage of each tool in box.
+
+
+userprog
+--------
+
+`userprog` is a sample synthetic workload for test of other tools.  It
+interactively allocates and access specified pages in the allocated pages.
+After execution, it first asks how many pages to allocates.  Once you type in
+how many pages to allocate, the program will repeatedly asks how many pages in
+the allocated pages you want to do access.
+
+
+heapof.py
+---------
+
+`heapof.py` receives pid as argument and print out virtual address range for
+heap of the process.  Internally, it uses /proc/pid/maps file.  For example,
+you may use the tool as below:
+```
+$ ./heapof.py `pidof userprog`
+0x00dfb000-0x00e1c000
+```
+
+
+pfnof.py
+--------
+
+`pfnof.py` receives pid and virtual address range as argument and giving page
+frame number for the virtual address range.  Output of `heapof.py` can be used
+as the argument for virtual address range.  Internally, it uses
+/proc/pid/pagemap.  Because of security, you should have root access.  For
+example, you may use the tool in below way:
+```
+# PID=`pidof userprog`; HEAP=`./heapof.py $PID`; sudo ./pfnof.py $PID $HEAP
+100156099
+35988272
+45393716
+39988623
+39988620
+42619059
+37091435
+42283669
+47752799
+47576225
+40606338
+```
+
+
+pageidle
+--------
+
+`pageidle` is a program to set / get idleness of physical pages.  When running
+it, you should give at least 2 arguments.  First argument should be string,
+`set` or `get`.  After that, page frame number(s) of physical page(s) that you
+want to set or get their idleness should follow.  For example:
+```
+$ PID=`pidof userprog`; HEAP=`./heapof.py $PID`; \
+	PFNS=`sudo ./pfnof.py $PID $HEAP`; sudo ./pageidle set $PFNS
+$ PID=`pidof userprog`; HEAP=`./heapof.py $PID`; \
+	PFNS=`sudo ./pfnof.py $PID $HEAP`; sudo ./pageidle get $PFNS
+1 1 1 1 1 1 1 1 1 1 1
+```
+
+After you access few pages using `userprog`, the output of `get` becomes
+different.
+```
+/* From userprog */
+How many pages you want to access? 3
+will access 3 pages
+How many pages you want to access?
+
+/* From other terminal */
+$ PID=`pidof userprog`; HEAP=`./heapof.py $PID`; \
+	PFNS=`sudo ./pfnof.py $PID $HEAP`; sudo ./pageidle get $PFNS
+0 0 0 1 1 1 1 1 1 1 1
+```
+
+License
+=======
+
+GPL v3
+
+
+Author
+======
+
+SeongJae Park <sj38.park@gmail.com>
