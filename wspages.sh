@@ -8,14 +8,7 @@ fi
 
 pid=$1
 interval=$2
-
 pfns_file="pfns.bin"
 
-heaparea=`sudo ./heapof.py $pid`
-pfns=`sudo ./pfnof.py $pid $heaparea`
-echo $pfns | ./u8lst_txt2bin.py $pfns_file
-
-sudo ./pageidle set $pfns_file
-sleep $interval
-bits=`sudo ./pageidle get $pfns_file`
-grep -o "0" <<< $bits | wc -l
+./gen_pfns_bin.sh $pid $pfns_file
+./wspagesof.sh $pfns_file $interval
