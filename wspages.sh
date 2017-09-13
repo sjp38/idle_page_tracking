@@ -13,7 +13,7 @@ pfns_file="pfns.bin"
 
 heaparea=`sudo ./heapof.py $pid`
 pfns=`sudo ./pfnof.py $pid $heaparea`
-echo $pfns | ./txtlist2bin.py $pfns_file
+echo $pfns | ./u8lst_txt2bin.py $pfns_file
 
 sudo ./pageidle set $pfns_file
 sleep $interval
