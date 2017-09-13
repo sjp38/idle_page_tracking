@@ -8,7 +8,7 @@ set size of a process.
 Tools
 =====
 
-This section gives brief description and usage of each tool in box.
+This section gives brief description and usage of core tools in the box.
 
 
 userprog
@@ -100,8 +100,7 @@ $ ./wspages.sh `pidof userprog` 1
 3
 ```
 
-
-Note that this script tracks heap pages only for now.
+[*] Note that this script tracks heap pages only for now.
 
 
 License
