@@ -10,12 +10,13 @@
 #define BIT_AT(val, x)	(((val) & (1ull << x)) != 0)
 #define SET_BIT(val, x) ((val) | (1ull << x))
 
-void setidle(int nr_pfns, int pfns[])
+typedef unsigned long long u8;
+
+void setidle(u8 nr_pfns, u8 pfns[])
 {
 	int fd;
-	int pfn;
-	unsigned long long entry;
-	int i;
+	u8 pfn, entry;
+	u8 i;
 
 	fd = open("/sys/kernel/mm/page_idle/bitmap", O_RDWR);
 	if (fd < 0)
@@ -36,12 +37,11 @@ void setidle(int nr_pfns, int pfns[])
 	close(fd);
 }
 
-void getidle(int nr_pfns, int pfns[])
+void getidle(u8 nr_pfns, u8 pfns[])
 {
 	int fd;
-	unsigned long long entry;
-	unsigned long long pfn;
-	int i;
+	u8 entry, pfn;
+	u8 i;
 
 	fd = open("/sys/kernel/mm/page_idle/bitmap", O_RDONLY);
 	if (fd < 0)
@@ -62,16 +62,16 @@ void getidle(int nr_pfns, int pfns[])
 
 int main(int argc, char *argv[])
 {
-	int *pfns;
-	int nr_pfns;
-	int i;
+	u8 *pfns;
+	u8 nr_pfns;
+	u8 i;
 
 	if (argc < 4)
 		errx(1, "Usage: %s <set|get> <pfn> [pfn 2]...\n",
 				argv[0]);
 
 	nr_pfns = argc - 2;
-	pfns = (int *)malloc(sizeof(int) * nr_pfns);
+	pfns = (u8 *)malloc(sizeof(u8) * nr_pfns);
 	for (i = 0; i < nr_pfns; i++)
 		pfns[i] = atoi(argv[i + 2]);
 
