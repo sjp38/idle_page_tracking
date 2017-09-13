@@ -65,15 +65,26 @@ int main(int argc, char *argv[])
 	u8 *pfns;
 	u8 nr_pfns;
 	u8 i;
+	char *pfns_file;
+	int f, nr_read;
 
-	if (argc < 4)
-		errx(1, "Usage: %s <set|get> <pfn> [pfn 2]...\n",
+	if (argc < 3)
+		errx(1, "Usage: %s <set|get> <pfns file>\n",
 				argv[0]);
 
-	nr_pfns = argc - 2;
+	pfns_file = argv[2];
+	f = open(pfns_file, O_RDONLY);
+
+	nr_read = read(f, &nr_pfns, sizeof(nr_pfns));
+	if (nr_read != sizeof(nr_pfns))
+		err(1, "number of pfns reading");
+
 	pfns = (u8 *)malloc(sizeof(u8) * nr_pfns);
-	for (i = 0; i < nr_pfns; i++)
-		pfns[i] = atoi(argv[i + 2]);
+	for (i = 0; i < nr_pfns; i++) {
+		nr_read = read(f, &pfns[i], sizeof(pfns[i]));
+		if (nr_read != sizeof(pfns[i]))
+			err(1, "reading %lluth pfn", i);
+	}
 
 	if (strncmp(argv[1], "set", strlen("set")) == 0)
 		setidle(nr_pfns, pfns);
