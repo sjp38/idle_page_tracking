@@ -86,6 +86,24 @@ $ PID=`pidof userprog`; HEAP=`./heapof.py $PID`; \
 0 0 0 1 1 1 1 1 1 1 1
 ```
 
+
+wspages.sh
+----------
+
+Now you can calculate working set size of a process using the tools.  To
+simplify the life even more, `wspages.sh` helps the complicated works.  It
+receives pid and time interval as argument.  Then, it will prints out number of
+pages accessed between the time interval.  Simple example of usage and output
+is as below:
+```
+$ ./wspages.sh `pidof userprog` 1
+3
+```
+
+
+Note that this script tracks heap pages only for now.
+
+
 License
 =======
 
