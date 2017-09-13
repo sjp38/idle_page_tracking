@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Read numbers in text format and write to binary file"""
+"""Convert list of unsigned long long from text format to binary format"""
 
 import sys
 import struct
