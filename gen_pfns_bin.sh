@@ -2,7 +2,6 @@
 
 if [ $# -lt 2 ]
 then
-	echo $# $0 $1 $2
 	echo "Usage: $0 <pid> <file name> [mapping region]"
 	exit 1
 fi
