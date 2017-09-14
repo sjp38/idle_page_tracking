@@ -21,39 +21,17 @@ how many pages to allocate, the program will repeatedly asks how many pages in
 the allocated pages you want to do access.
 
 
-heapof.py
----------
+pfnofmap.py
+-----------
 
-`heapof.py` receives pid as argument and print out virtual address range for
-heap of the process.  Internally, it uses /proc/pid/maps file.  For example,
-you may use the tool as below:
+`pfnofmap.py` receives pid and virtual address mapping path name as argument
+and giving page frame number for the mapped virtual address range.  Internally,
+it uses /proc/pid/maps and /proc/pid/pagemap.  Because of security, you should
+have root access.  For example, you may use the tool in below way:
 ```
-$ ./heapof.py `pidof userprog`
-0x00dfb000-0x00e1c000
-```
-
-
-pfnof.py
---------
-
-`pfnof.py` receives pid and virtual address range as argument and giving page
-frame number for the virtual address range.  Output of `heapof.py` can be used
-as the argument for virtual address range.  Internally, it uses
-/proc/pid/pagemap.  Because of security, you should have root access.  For
-example, you may use the tool in below way:
-```
-# PID=`pidof userprog`; HEAP=`./heapof.py $PID`; sudo ./pfnof.py $PID $HEAP
-100156099
-35988272
-45393716
-39988623
-39988620
-42619059
-37091435
-42283669
-47752799
-47576225
-40606338
+$ sudo ./pfnofmap.py `pidof userprog` [stack]
+98758566
+96560353
 ```
 
 
