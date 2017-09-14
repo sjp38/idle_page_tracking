@@ -70,15 +70,15 @@ wspages.sh
 
 Now you can calculate working set size of a process using the tools.  To
 simplify the life even more, `wspages.sh` helps the complicated works.  It
-receives pid and time interval as argument.  Then, it will prints out number of
-pages accessed between the time interval.  Simple example of usage and output
-is as below:
+requires pid, time interval, and target memory mapped regions as argument.  The
+third argument can be ignored.  In the case, it uses heap, stack, and anonymous
+pages as target memory region by default.  If you give the arguments well, this
+tool will prints out number of pages accessed between the time interval.
+Simple example of usage and output is as below:
 ```
-$ ./wspages.sh `pidof userprog` 1
+$ sudo ./wspages.sh `pidof userprog` 1 [heap]
 3
 ```
-
-[*] Note that this script tracks heap, stack, and anonymous pages only for now.
 
 
 wspgstat.sh
@@ -86,16 +86,15 @@ wspgstat.sh
 
 Like *stat programs (such as vmstat, iostat, ...), wspgstat.sh monitors and
 print out number of pages in working set of specific process repeatedly.  It
-receives pid of target program and delay between idleness check as arguments.
-Simple example usage is as below:
+requires pid of target program, delay between idleness check, and target memory
+mapped regions as arguments.  The third argument is optional and has default
+value as same as wspages.sh's same argument.  Simple example usage is as below:
 ```
 $ ./wspgstat.sh `pidof mysqld` 5
 1 17448
 9 21536
 18 21659
 ```
-
-[*] Note that this script tracks heap, stack, and anonymous pages only for now.
 
 
 License
