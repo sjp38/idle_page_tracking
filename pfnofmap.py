@@ -5,23 +5,24 @@ import struct
 import sys
 
 if len(sys.argv) < 3:
-    print "Usage: %s <pid> <mapping region>" % (sys.argv[0])
-    print "\t`mapping region` is same as path field of /proc/pid/maps`"
+    print "Usage: %s <pid> <mapping regions>" % (sys.argv[0])
+    print "\t`mapping region` is as same as path field of /proc/pid/maps`"
     print "\tUse `anon` as mapping region for anonymous region"
+    print "\tMultiple regions can be given using comma as seperator"
     exit(1)
 
 PAGE_SHIFT = 12
 PAGE_SIZE = 1 << PAGE_SHIFT
 
-def vaof(pid, region):
+def vaof(pid, regions):
     vas=[]
     with open("/proc/%s/maps" % pid, 'r') as f:
         for l in f:
             splts = l.split()
             va_range = [int("0x%s" % x, 0) for x in splts[0].split('-')]
-            if len(splts) == 5 and region == "anon":
+            if len(splts) == 5 and "anon" in regions:
                 vas.append(va_range)
-            elif len(splts) == 6 and splts[5] == region:
+            elif len(splts) == 6 and splts[5] in regions:
                 vas.append(va_range)
 
     collapsed_vas = [vas[0]]
@@ -41,9 +42,9 @@ def PAGEMAP_PFN(ent):
 
 
 pid = sys.argv[1]
-region = sys.argv[2]
+regions = sys.argv[2].split(',')
 
-vas = vaof(pid, region)
+vas = vaof(pid, regions)
 
 with open("/proc/%s/pagemap" % pid, 'rb') as f:
     for r in vas:
