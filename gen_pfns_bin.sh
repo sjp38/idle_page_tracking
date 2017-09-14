@@ -10,5 +10,5 @@ fi
 pid=$1
 pfns_file=$2
 
-pfns=`sudo ./pfnofmap.py $pid [heap]`
+pfns=`sudo ./pfnofmap.py $pid "[heap],[stack],anon"`
 echo $pfns | ./u8lst_txt2bin.py $pfns_file
