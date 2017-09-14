@@ -34,7 +34,7 @@ def vaof(pid, region):
 
 def pr_vas(vas):
     for r in vas:
-        print "%x-%x" % (r[0], r[1])
+        print "0x%x-0x%x" % (r[0], r[1])
 
 def PAGEMAP_PFN(ent):
     return ent & ((1 << 55) - 1)
