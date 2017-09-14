@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]
+if [ $# -lt 2 ]
 then
-	echo "Usage: $0 <pid> <delay>"
+	echo "Usage: $0 <pid> <delay> [mapping regions]"
 	exit 1
 fi
 
@@ -11,6 +11,7 @@ pushd $BINDIR > /dev/null
 
 PID=$1
 DELAY=$2
+MREGIONS=$3
 
 PFNS_FILE="pfns.bin"
 
@@ -20,7 +21,7 @@ while true
 do
 	if [ $NR_PFNF_REUSE -eq $PFNF_REUSE_LIM ]
 	then
-		./gen_pfns_bin.sh $PID $PFNS_FILE
+		./gen_pfns_bin.sh $PID $PFNS_FILE $MREGIONS
 		NR_PFNF_REUSE=0
 	fi
 	NR_PFNF_REUSE=$(($NR_PFNF_REUSE + 1))
