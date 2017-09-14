@@ -10,6 +10,5 @@ fi
 pid=$1
 pfns_file=$2
 
-heaparea=`sudo ./heapof.py $pid`
-pfns=`sudo ./pfnof.py $pid $heaparea`
+pfns=`sudo ./pfnofmap.py $pid [heap]`
 echo $pfns | ./u8lst_txt2bin.py $pfns_file
