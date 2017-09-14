@@ -40,13 +40,29 @@ def pr_vas(vas):
 def PAGEMAP_PFN(ent):
     return ent & ((1 << 55) - 1)
 
+def IN_LRU(flags):
+    return (flags & (1 << 5)) != 0
+
+def PR_KFLAGS(flags):
+    text = ""
+    for b in range(0, 26):
+        if flags & (1 << b) != 0:
+            text += "1"
+        else:
+            text += "0"
+        if b > 0 and b % 4 == 0:
+            text += " "
+    print text
+
 
 pid = sys.argv[1]
 regions = sys.argv[2].split(',')
 
 vas = vaof(pid, regions)
 
-with open("/proc/%s/pagemap" % pid, 'rb') as f:
+pmap_path = "/proc/%s/pagemap" % pid
+kflg_path = "/proc/kpageflags"
+with open(pmap_path, 'rb') as f, open(kflg_path, 'rb') as flagsf:
     for r in vas:
         start_va = r[0]
         end_va = r[1]
@@ -61,5 +77,11 @@ with open("/proc/%s/pagemap" % pid, 'rb') as f:
             ent = struct.unpack("Q", ent)[0]
             pfn = PAGEMAP_PFN(ent)
             if pfn == 0:
+                continue
+
+            flagsf.seek(pfn * 8, 0)
+            flags = flagsf.read(8)
+            flags = struct.unpack("Q", flags)[0]
+            if not IN_LRU(flags):
                 continue
             print "%d" % pfn
