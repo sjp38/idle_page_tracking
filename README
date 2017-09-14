@@ -2,7 +2,7 @@ Idle Page Tracking
 ==================
 
 This is a toolbox for idle page tracking.  It can be used to know real working
-set size of a process.
+set size of a process, rather than vsz or rss.
 
 
 Tools
