@@ -17,6 +17,9 @@ _OBJ_PI	:= pageidle.o
 OBJ_PI	:= $(patsubst %,$(ODIR)/%,$(_OBJ_PI))
 
 
+all: $(APPS)
+
+
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
@@ -29,9 +32,6 @@ $(APP): $(OBJ)
 
 $(PAGEIDL): $(OBJ_PI)
 	$(CC) -o $@ $^ $(LIBS)
-
-
-all: $(APPS)
 
 clean:
 	rm -f $(ODIR)/*.o $(ODIR)/*.s $(APPS)
