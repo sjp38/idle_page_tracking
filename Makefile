@@ -1,7 +1,7 @@
 .PHONY: clean help
 
 APPS	:= userprog pageidle
-APP	:= userprog
+USRPRG	:= userprog
 PAGEIDL	:= pageidle
 
 IDIR	:= include
@@ -10,8 +10,8 @@ CFLAGS	:= -g -I$(IDIR) -O3 -Wall -Werror -std=gnu99
 #LIBS	:= -lpthread -lnuma -ljemalloc
 ODIR	:= ./
 
-_OBJ	:= userprog.o
-OBJ	:= $(patsubst %,$(ODIR)/%,$(_OBJ))
+_OBJ_UP	:= userprog.o
+OBJ_UP	:= $(patsubst %,$(ODIR)/%,$(_OBJ_UP))
 
 _OBJ_PI	:= pageidle.o
 OBJ_PI	:= $(patsubst %,$(ODIR)/%,$(_OBJ_PI))
@@ -27,7 +27,7 @@ $(ODIR)/%.s: %.c $(DEPS)
 	$(CC) -S -o $@ $< $(CFLAGS)
 
 
-$(APP): $(OBJ)
+$(USRPRG): $(OBJ_UP)
 	$(CC) -o $@ $^ $(LIBS)
 
 $(PAGEIDL): $(OBJ_PI)
