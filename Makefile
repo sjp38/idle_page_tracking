@@ -40,5 +40,5 @@ clean:
 help:
 	@echo "usage: make <target>"
 	@echo ""
-	@echo "targets: $(APP)"
+	@echo "targets: $(APPS)"
 	@echo ""
