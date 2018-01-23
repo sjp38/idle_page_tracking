@@ -72,8 +72,16 @@ int main(int argc, char *argv[])
 	u8 i;
 	char *pfns_file;
 	int f, nr_read;
+	char do_get = 1;
 
 	if (argc < 3)
+		err_usage(argv[0]);
+
+	if (strncmp(argv[1], "set", strlen("set")) == 0)
+		do_get = 0;
+	else if (strncmp(argv[1], "get", strlen("get")) == 0)
+		do_get = 1;
+	else
 		err_usage(argv[0]);
 
 	pfns_file = argv[2];
@@ -90,12 +98,10 @@ int main(int argc, char *argv[])
 			err(1, "reading %lluth pfn", i);
 	}
 
-	if (strncmp(argv[1], "set", strlen("set")) == 0)
-		setidle(nr_pfns, pfns);
-	else if (strncmp(argv[1], "get", strlen("get")) == 0)
+	if (do_get)
 		getidle(nr_pfns, pfns);
 	else
-		err_usage(argv[0]);
+		setidle(nr_pfns, pfns);
 
 	return 0;
 }
