@@ -10,8 +10,8 @@ Limitations
 
 The tools use idle page tracking feature of the Linux kernel internally.  It
 means that the tools work on Linux systems that idle page tracking feature is
-turned on.  You can check whether your system turned on or off the feature by
-simply running the command below:
+turned on.  You can check whether your system has turned on or off the feature
+by simply running the command below:
 ```
 $ if [ -d /sys/kernel/mm/page_idle ]; \
 	then echo "ON"; else echo "OFF"; fi
