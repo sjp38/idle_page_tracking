@@ -67,15 +67,17 @@ $ sudo ./gen_pfns_bin.sh `pidof userprog` pfns.bin [heap]
 pageidle
 --------
 
-`pageidle` is a program to set / get idleness of physical pages.  When running
-it, you should give at least 2 arguments.  First argument should be string,
-`set` or `get`.  After that, page frame number(s) of physical page(s) that you
-want to set or get their idleness should follow.  For example:
+`pageidle` is a program to set / get idleness of physical pages.  It receives
+two arguments.  First argument should be a string of command, `set` or `get`.
+Second argument is a path to a file that containing page frame number(s) of
+physical page(s) that you want to set or get their idleness.  The file for page
+frame number(s) should be in binary format that `gen_pfns_bin.sh` uses.
+
+For example:
 ```
-$ PID=`pidof userprog`; HEAP=`./heapof.py $PID`; \
-	PFNS=`sudo ./pfnof.py $PID $HEAP`; sudo ./pageidle set $PFNS
-$ PID=`pidof userprog`; HEAP=`./heapof.py $PID`; \
-	PFNS=`sudo ./pfnof.py $PID $HEAP`; sudo ./pageidle get $PFNS
+$ sudo ./gen_pfns_bin.sh `pidof userprog` pfns.bin [heap]
+$ sudo ./pageidle set pfns.bin
+$ sudo ./pageidle get pfns.bin
 1 1 1 1 1 1 1 1 1 1 1
 ```
 
@@ -88,8 +90,7 @@ will access 3 pages
 How many pages you want to access?
 
 /* From other terminal */
-$ PID=`pidof userprog`; HEAP=`./heapof.py $PID`; \
-	PFNS=`sudo ./pfnof.py $PID $HEAP`; sudo ./pageidle get $PFNS
+$ sudo ./pageidle get pfns.bin
 0 0 0 1 1 1 1 1 1 1 1
 ```
 
