@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 	else if (strncmp(argv[1], "get", strlen("get")) == 0)
 		getidle(nr_pfns, pfns);
 	else
-		errx(1, "Usage: %s <set|get> <start pfn> <end pfn>\n",
+		errx(1, "Usage: %s <set|get> <pfns file>\n",
 				argv[0]);
 
 	return 0;
