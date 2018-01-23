@@ -98,23 +98,26 @@ $ sudo ./pageidle get pfns.bin
 wspages.sh
 ----------
 
-Now you can calculate working set size of a process using the tools.  To
-simplify the life even more, `wspages.sh` helps the complicated works.  It
-requires pid, time interval, and target memory mapped regions as argument.  The
-third argument can be ignored.  In the case, it uses heap, stack, and anonymous
-pages as target memory region by default.  If you give the arguments well, this
-tool will prints out number of pages accessed between the time interval.
-Simple example of usage and output is as below:
+Now you can calculate working set size of a process using the tools described
+above.  To simplify the life even more, `wspages.sh` helps the complicated
+works.  It requires pid, time interval, and target memory mapped regions as
+arguments.  The third argument can be ignored, though.  In the case, it uses
+heap, stack, and anonymous pages as target memory region by default.  If you
+give the arguments as well, this tool will prints out number of pages accessed
+between the time interval.  Simple example of usage and output is as below:
 ```
 $ sudo ./wspages.sh `pidof userprog` 1 [heap]
 3
 ```
 
+The output says that `userprog` process has accessed 3 pages in heap during
+one second after you started `wspages.sh`.
+
 
 wspgstat.sh
 -----------
 
-Like *stat programs (such as vmstat, iostat, ...), wspgstat.sh monitors and
+Like `*stat` programs (such as vmstat, iostat, ...), wspgstat.sh monitors and
 print out number of pages in working set of specific process repeatedly.  It
 requires pid of target program, delay between idleness check, and target memory
 mapped regions as arguments.  The third argument is optional and has default
