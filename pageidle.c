@@ -60,6 +60,11 @@ void getidle(u8 nr_pfns, u8 pfns[])
 	close(fd);
 }
 
+void err_usage(const char *cmd)
+{
+	errx(1, "Usage: %s <set|get> <pfns file>\n", cmd);
+}
+
 int main(int argc, char *argv[])
 {
 	u8 *pfns;
@@ -69,8 +74,7 @@ int main(int argc, char *argv[])
 	int f, nr_read;
 
 	if (argc < 3)
-		errx(1, "Usage: %s <set|get> <pfns file>\n",
-				argv[0]);
+		err_usage(argv[0]);
 
 	pfns_file = argv[2];
 	f = open(pfns_file, O_RDONLY);
@@ -91,8 +95,7 @@ int main(int argc, char *argv[])
 	else if (strncmp(argv[1], "get", strlen("get")) == 0)
 		getidle(nr_pfns, pfns);
 	else
-		errx(1, "Usage: %s <set|get> <pfns file>\n",
-				argv[0]);
+		err_usage(argv[0]);
 
 	return 0;
 }
