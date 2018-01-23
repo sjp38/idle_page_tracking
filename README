@@ -51,6 +51,19 @@ $ sudo ./pfnofmap.py `pidof userprog` [stack]
 ```
 
 
+gen_pfns_bin.sh
+---------------
+
+`pfnofmap.py` is useful, but parsing every pfns from string could be relatively
+slow.  gen_pfns_bin.sh does similar thing but it generates a file and write the
+extracted pfns in binary format to the file.  Usage is similar with
+`pfnofmap.py` but it receives a path to the file that you want to generate as
+second argument.  Simple use of the tool will be like below:
+```
+$ sudo ./gen_pfns_bin.sh `pidof userprog` pfns.bin [heap]
+```
+
+
 pageidle
 --------
 
