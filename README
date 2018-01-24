@@ -30,11 +30,11 @@ This section gives brief description and usage of core tools in the box.
 userprog
 --------
 
-`userprog` is a sample synthetic workload for test of other tools.  It
-interactively allocates and access specified pages in the allocated pages.
-After execution, it first asks how many pages to allocates.  Once you type in
-how many pages to allocate, the program will repeatedly asks how many pages in
-the allocated pages you want to do access.
+`userprog` is a sample synthetic workload for test of other tools.  It creates
+a memory pool of given size and interactively accesses specified pages in the
+allocated pages.  It receives number of pages to be used for the memory pool by
+command line argument.  After the program starts, it will repeatedly ask how
+many pages in the memory pool you want to do access.
 
 
 pfnofmap.py
