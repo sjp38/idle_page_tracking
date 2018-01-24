@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PROFILE=0
+
 if [ $# -lt 2 ]
 then
 	echo "Usage: $0 <pid> <delay> [mapping regions]"
@@ -21,11 +23,15 @@ while true
 do
 	if [ $NR_PFNF_REUSE -eq $PFNF_REUSE_LIM ]
 	then
+		if [ $PROFILE ]; then SECONDS=0; fi
 		./gen_pfns_bin.sh $PID $PFNS_FILE $MREGIONS
+		if [ $PROFILE ]; then echo "$SECONDS secs for pfn.bin gen"; fi
 		NR_PFNF_REUSE=0
 	fi
 	NR_PFNF_REUSE=$(($NR_PFNF_REUSE + 1))
+	if [ $PROFILE ]; then SECONDS=0; fi
 	WSPAGES=`./wspagesof.sh $PFNS_FILE $DELAY`
+	if [ $PROFILE ]; then echo "$SECONDS secs for wspagesof.sh"; fi
 	echo "$SECONDS $WSPAGES"
 done
 
