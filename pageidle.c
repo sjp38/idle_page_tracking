@@ -67,9 +67,34 @@ void getidle(u8 nr_pfns, u8 pfns[])
 	close(fd);
 }
 
+u8 nr_active(u8 nr_pfns, u8 pfns[])
+{
+	int fd;
+	u8 entry, pfn;
+	u8 i;
+	u8 nr_activepages = 0;
+
+	fd = open("/sys/kernel/mm/page_idle/bitmap", O_RDONLY);
+	if (fd < 0)
+		err(2, "open bitmap");
+
+	for (i = 0; i < nr_pfns; i++) {
+		pfn = pfns[i];
+		entry = 0;
+		if (pread(fd, &entry, sizeof(entry), PFN_TO_IPF_IDX(pfn))
+				!= sizeof(entry))
+			err(2, "%s: read bitmap", __func__);
+		if (BIT_AT(entry, pfn % 64))
+			nr_activepages++;
+	}
+	close(fd);
+
+	return nr_activepages;
+}
+
 void err_usage(const char *cmd)
 {
-	errx(1, "Usage: %s <set|get> <pfns file>\n", cmd);
+	errx(1, "Usage: %s <set|get|count> <pfns file>\n", cmd);
 }
 
 int main(int argc, char *argv[])
@@ -80,11 +105,14 @@ int main(int argc, char *argv[])
 	char *pfns_file;
 	int f, nr_read;
 	char do_get = 1;
+	char do_count_active = 0;
 
 	if (argc < 3)
 		err_usage(argv[0]);
 
-	if (strncmp(argv[1], "set", strlen("set")) == 0)
+	if (strncmp(argv[1], "count", strlen("count")) == 0)
+		do_count_active = 1;
+	else if (strncmp(argv[1], "set", strlen("set")) == 0)
 		do_get = 0;
 	else if (strncmp(argv[1], "get", strlen("get")) == 0)
 		do_get = 1;
@@ -105,7 +133,9 @@ int main(int argc, char *argv[])
 			err(1, "reading %lluth pfn", i);
 	}
 
-	if (do_get)
+	if (do_count_active)
+		printf("%llu\n", nr_active(nr_pfns, pfns));
+	else if (do_get)
 		getidle(nr_pfns, pfns);
 	else
 		setidle(nr_pfns, pfns);
