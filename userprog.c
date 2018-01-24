@@ -38,14 +38,13 @@ int main(int argc, char *argv[])
 	int nr_pages;
 	int nr_accesses;
 
-	printf("How many pages you want to alloc? ");
-	n = scanf("%d", &nr_pages);
-	if (errno != 0)
-		err(1, "number of pages to alloc");
-	if (n != 1)
-		errx(1, "Wrong input");
+	if (argc < 2)
+		errx(1, "Usage: %s <number of pages to utilize>\n", argv[0]);
 
-	printf("will alloc %d pages\n", nr_pages);
+	nr_pages = atoi(argv[1]);
+	if (nr_pages < 1)
+		errx(1, "Argument '%s' is wrong", argv[1]);
+
 	alloc_pages(nr_pages);
 
 	while (1) {
