@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROFILE=0
+PROFILE=
 
 if [ $# -lt 2 ]
 then
