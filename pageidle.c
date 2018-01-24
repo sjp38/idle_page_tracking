@@ -37,6 +37,13 @@ void setidle(u8 nr_pfns, u8 pfns[])
 	close(fd);
 }
 
+/*
+ * pfn to index of idle page file bitmap
+ *
+ * The bitmap should be read in 8 bytes (64 pages) stride.
+ */
+#define PFN_TO_IPF_IDX(pfn) pfn >> 6 << 3
+
 void getidle(u8 nr_pfns, u8 pfns[])
 {
 	int fd;
@@ -50,7 +57,7 @@ void getidle(u8 nr_pfns, u8 pfns[])
 	for (i = 0; i < nr_pfns; i++) {
 		pfn = pfns[i];
 		entry = 0;
-		if (pread(fd, &entry, sizeof(entry), pfn / 64 * 8)
+		if (pread(fd, &entry, sizeof(entry), PFN_TO_IPF_IDX(pfn))
 				!= sizeof(entry))
 			err(2, "%s: read bitmap", __func__);
 		printf("%d ", (int)BIT_AT(entry, pfn % 64));
