@@ -84,7 +84,7 @@ u8 nr_active(u8 nr_pfns, u8 pfns[])
 		if (pread(fd, &entry, sizeof(entry), PFN_TO_IPF_IDX(pfn))
 				!= sizeof(entry))
 			err(2, "%s: read bitmap", __func__);
-		if (BIT_AT(entry, pfn % 64))
+		if (!BIT_AT(entry, pfn % 64))               /* bit 1 indicates idle */
 			nr_activepages++;
 	}
 	close(fd);
